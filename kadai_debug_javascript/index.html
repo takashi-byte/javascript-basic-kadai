@@ -79,6 +79,9 @@
             let seconds = document.getElementById('seconds').value || 0;
             let timeLeft = (minutes * 60) + parseInt(seconds);
             setMode("progress");
+            if(countdownInterval) {
+                clearInterval(countdownInterval);
+            }
             countdownInterval = setInterval(() => {
                 if(!isPaused) {
                     timeLeft--;
@@ -109,7 +112,11 @@
         // カウントダウンをリセットする関数
         function resetCountdown() {
             clearInterval(countdownInterval);
-            updateTimer();
+            let minutes = document.getElementById('minutes').value || 0;
+            let seconds = document.getElementById('seconds').value || 0;
+            let timeLeft = (minutes * 60) + parseInt(seconds);
+            document.getElementById('timer').innerText = `${String(Math.floor(timeLeft / 60)).padStart(2, '0')}:${String(timeLeft % 60).padStart(2, '0')}`;
+            isPaused = false;
             setMode("restart");
         }
 
